@@ -7,14 +7,12 @@ interface ModalProps {
   onClose: () => void;
 }
 const Modal = ({ children, onClose }: ModalProps) => {
-  // Закрытие по Escape
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         onClose();
       }
     };
-    // блок прокрутки при відкритті модалки
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 

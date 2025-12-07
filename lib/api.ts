@@ -28,7 +28,7 @@ export async function fetchNotes(
       Authorization: `Bearer ${token}`,
     },
   });
-  // console.log(response.data);
+  console.log(response.data);
 
   return response.data;
 }
@@ -69,4 +69,32 @@ export async function fetchNoteById(noteId: Note["id"]) {
     }
   );
   return response.data;
+}
+export interface FetchNotesResponse {
+  page: number;
+  notes: Note[];
+  totalPages: number;
+}
+
+export async function fetchNotesByTag(
+  tag: string,
+  page: number = 1,
+  search: string = ""
+): Promise<FetchNotesResponse> {
+  const token = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN;
+  const params: Record<string, any> = { page, search };
+
+  if (tag.toLowerCase() !== "all") {
+    params.tag = tag;
+  }
+
+  const response = await axios.get<FetchNotesResponse>(BASE_URL, {
+    params,
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  return {
+    ...response.data,
+    notes: response.data.notes || [],
+  };
 }
