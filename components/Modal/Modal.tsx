@@ -7,12 +7,16 @@ import css from "./Modal.module.css";
 
 interface ModalProps {
   children: React.ReactNode;
+  onClose?: () => void; // Додаємо необов'язковий проп
 }
 
-const Modal = ({ children }: ModalProps) => {
+const Modal = ({ children, onClose }: ModalProps) => {
   const router = useRouter();
 
-  const handleClose = () => router.back();
+  const handleClose = () => {
+    if (onClose) onClose(); // якщо передали проп — викликаємо його
+    else router.back(); // інакше стандартна поведінка
+  };
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
