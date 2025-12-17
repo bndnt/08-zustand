@@ -5,10 +5,27 @@ import {
 } from "@tanstack/react-query";
 import { fetchNoteById } from "@/lib/api";
 import NoteDetailsClient from "./NoteDetails.client";
+import type { Metadata } from "next";
 
 interface NoteDetailsProp {
   params: Promise<{ id: string }>;
 }
+export const generateMetadata = async ({
+  params,
+}: NoteDetailsProp): Promise<Metadata> => {
+  const { id } = await params;
+  const note = await fetchNoteById(id);
+  return {
+    title: `Note #${note.title}`,
+    description: `${note.content}`,
+    openGraph: {
+      title: note.title,
+      description: `${note.content}`,
+      url: `/notes/${note.id}`,
+      images: ["https://ac.goit.global/fullstack/react/notehub-og-meta.jpg"],
+    },
+  };
+};
 async function NoteDetails({ params }: NoteDetailsProp) {
   const queryClient = new QueryClient();
   const { id } = await params;

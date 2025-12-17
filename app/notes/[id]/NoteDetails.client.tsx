@@ -21,7 +21,7 @@ const NoteDetailsClient = () => {
   if (error) {
     return (
       <div>
-        <Link className="backBtn" href="/notes">
+        <Link className="backBtn" href="/notes/filter/all">
           <span className="backBtnSpan">←</span> Go back
         </Link>
         <p className={css.error}>
@@ -33,7 +33,7 @@ const NoteDetailsClient = () => {
   }
   return (
     <div>
-      <Link className="backBtn" href={`/notes`}>
+      <Link className="backBtn" href={`notes/filter/all`}>
         <span className="backBtnSpan">←</span> Go back
       </Link>
       <div className={css.item}>
