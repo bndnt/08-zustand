@@ -3,13 +3,7 @@
 import css from "@/app/notes/Notes.module.css";
 import { useState } from "react";
 import { fetchNotes } from "@/lib/api";
-import {
-  QueryClient,
-  QueryClientProvider,
-  HydrationBoundary,
-  useQuery,
-  DehydratedState,
-} from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useDebouncedCallback } from "use-debounce";
 import SearchBox from "@/components/SearchBox/SearchBox";
 import NoteList from "@/components/NoteList/NoteList";
@@ -18,9 +12,9 @@ import Loader from "@/components/Loader/Loader";
 import ErrorHandler from "../../error";
 import type { Note } from "@/types/note";
 import Link from "next/link";
+
 interface NotesClientProps {
   filterTag?: string;
-  dehydratedState?: DehydratedState;
 }
 
 interface NotesResponse {
@@ -28,41 +22,10 @@ interface NotesResponse {
   totalPages: number;
 }
 
-const NotesClient = ({ filterTag, dehydratedState }: NotesClientProps) => {
+const NotesClient = ({ filterTag }: NotesClientProps) => {
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
-  const [queryClient] = useState(() => new QueryClient());
 
-  return (
-    <QueryClientProvider client={queryClient}>
-      <HydrationBoundary state={dehydratedState}>
-        <NotesContent
-          filterTag={filterTag}
-          search={search}
-          page={page}
-          setSearch={setSearch}
-          setPage={setPage}
-        />
-      </HydrationBoundary>
-    </QueryClientProvider>
-  );
-};
-
-interface NotesContentProps {
-  filterTag?: string;
-  search: string;
-  page: number;
-  setSearch: (value: string) => void;
-  setPage: (page: number) => void;
-}
-
-const NotesContent = ({
-  filterTag,
-  search,
-  page,
-  setSearch,
-  setPage,
-}: NotesContentProps) => {
   const { data, isFetching, isLoading, error, refetch } = useQuery<
     NotesResponse,
     Error
@@ -78,11 +41,13 @@ const NotesContent = ({
     setPage(1);
   }, 300);
 
-  if (error)
-    return <ErrorHandler error={error as Error} reset={() => refetch()} />;
+  if (error) {
+    return <ErrorHandler error={error} reset={() => refetch()} />;
+  }
 
   const notes = data?.notes ?? [];
   const totalPages = data?.totalPages ?? 0;
+
   return (
     <div className={css.app}>
       <div className={css.toolbar}>
