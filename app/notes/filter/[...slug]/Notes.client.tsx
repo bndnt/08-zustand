@@ -123,11 +123,11 @@ const NotesContent = ({
         <NoteList notes={notes} />
       )}
 
-      {isModalOpen && (
+      {/* {isModalOpen && (
         <Modal onClose={closeModal}>
           <NoteForm onClose={closeModal} onSuccess={closeModal} />
         </Modal>
-      )}
+      )} */}
     </div>
   );
 };
