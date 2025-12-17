@@ -20,7 +20,7 @@ import NoteForm from "@/components/NoteForm/NoteForm";
 import Loader from "@/components/Loader/Loader";
 import ErrorHandler from "../../error";
 import type { Note } from "@/types/note";
-
+import Link from "next/link";
 interface NotesClientProps {
   filterTag?: string;
   dehydratedState?: DehydratedState;
@@ -98,7 +98,6 @@ const NotesContent = ({
 
   const notes = data?.notes ?? [];
   const totalPages = data?.totalPages ?? 0;
-
   return (
     <div className={css.app}>
       <div className={css.toolbar}>
@@ -111,9 +110,9 @@ const NotesContent = ({
           <Pagination page={page} totalPages={totalPages} setPage={setPage} />
         )}
 
-        <button onClick={openModal} className={css.button}>
+        <Link href="/notes/action/create" className={css.button}>
           Create note +
-        </button>
+        </Link>
       </div>
 
       {isFetching && <Loader />}

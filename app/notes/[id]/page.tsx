@@ -7,8 +7,11 @@ import { fetchNoteById } from "@/lib/api";
 import NoteDetailsClient from "./NoteDetails.client";
 import type { Metadata } from "next";
 
+// interface NoteDetailsProp {
+//   params: Promise<{ id: string }>;
+// }
 interface NoteDetailsProp {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 }
 export const generateMetadata = async ({
   params,
