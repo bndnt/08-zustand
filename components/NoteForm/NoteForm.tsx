@@ -1,6 +1,6 @@
 "use client";
 import css from "./NoteForm.module.css";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createNote } from "@/lib/api";
 import { useRouter } from "next/navigation";
 import { useNoteStore } from "@/lib/store/noteStore";
@@ -17,11 +17,14 @@ import { NoteTag } from "@/types/note";
 
 const NoteForm = () => {
   const router = useRouter();
+  const queryClient = useQueryClient();
+
   const { draft, clearDraft, setDraft } = useNoteStore();
-  // const QueryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
     mutationFn: createNote,
     onSuccess: () => {
+      // інвалідую кеш запиту ["notes"], щоб список нотаток автоматично оновився при переході на сторінку зі списком.
+      queryClient.invalidateQueries({ queryKey: ["notes"] });
       clearDraft();
       router.push("/notes/filter/all");
     },

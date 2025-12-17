@@ -14,9 +14,6 @@ import { useDebouncedCallback } from "use-debounce";
 import SearchBox from "@/components/SearchBox/SearchBox";
 import NoteList from "@/components/NoteList/NoteList";
 import Pagination from "@/components/Pagination/Pagination";
-import useModalControl from "@/hooks/useModalControl";
-import Modal from "@/components/Modal/Modal";
-import NoteForm from "@/components/NoteForm/NoteForm";
 import Loader from "@/components/Loader/Loader";
 import ErrorHandler from "../../error";
 import type { Note } from "@/types/note";
@@ -32,11 +29,8 @@ interface NotesResponse {
 }
 
 const NotesClient = ({ filterTag, dehydratedState }: NotesClientProps) => {
-  const { isModalOpen, openModal, closeModal } = useModalControl();
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
-
-  //   створення QueryClient
   const [queryClient] = useState(() => new QueryClient());
 
   return (
@@ -48,9 +42,6 @@ const NotesClient = ({ filterTag, dehydratedState }: NotesClientProps) => {
           page={page}
           setSearch={setSearch}
           setPage={setPage}
-          isModalOpen={isModalOpen}
-          openModal={openModal}
-          closeModal={closeModal}
         />
       </HydrationBoundary>
     </QueryClientProvider>
@@ -63,9 +54,6 @@ interface NotesContentProps {
   page: number;
   setSearch: (value: string) => void;
   setPage: (page: number) => void;
-  isModalOpen: boolean;
-  openModal: () => void;
-  closeModal: () => void;
 }
 
 const NotesContent = ({
@@ -74,9 +62,6 @@ const NotesContent = ({
   page,
   setSearch,
   setPage,
-  isModalOpen,
-  openModal,
-  closeModal,
 }: NotesContentProps) => {
   const { data, isFetching, isLoading, error, refetch } = useQuery<
     NotesResponse,
@@ -122,12 +107,6 @@ const NotesContent = ({
       ) : (
         <NoteList notes={notes} />
       )}
-
-      {/* {isModalOpen && (
-        <Modal onClose={closeModal}>
-          <NoteForm onClose={closeModal} onSuccess={closeModal} />
-        </Modal>
-      )} */}
     </div>
   );
 };
