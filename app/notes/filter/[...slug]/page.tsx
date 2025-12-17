@@ -18,7 +18,7 @@ export const generateMetadata = async ({
     openGraph: {
       title: tag,
       description: `Description for notes by tag ${tag}`,
-      url: `https://08-zustand-kwuklaip5-bndnts-projects.vercel.app/notes/filter/${tag}`,
+      url: `https://08-zustand-valeriia-makushchenko.vercel.app/notes/filter/${tag}`,
       images: [
         {
           url: "https://ac.goit.global/fullstack/react/og-meta.jpg",
