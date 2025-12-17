@@ -19,7 +19,14 @@ export const generateMetadata = async ({
       title: tag,
       description: `Description for notes by tag ${tag}`,
       url: `/notes/filter/${tag}`,
-      images: ["https://ac.goit.global/fullstack/react/notehub-og-meta.jpg"],
+      images: [
+        {
+          url: "https://ac.goit.global/fullstack/react/og-meta.jpg",
+          width: 1200,
+          height: 630,
+          alt: tag,
+        },
+      ],
     },
   };
 };

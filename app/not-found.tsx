@@ -8,7 +8,14 @@ export const metadata: Metadata = {
     title: "NoteHub 404 - Page doesn`t exist",
     description: "This page doesn`t exist or was deleted.",
     url: "/not-found",
-    images: ["https://ac.goit.global/fullstack/react/notehub-og-meta.jpg"],
+    images: [
+      {
+        url: "https://ac.goit.global/fullstack/react/og-meta.jpg",
+        width: 1200,
+        height: 630,
+        alt: "not found page",
+      },
+    ],
   },
 };
 function NotFound() {
